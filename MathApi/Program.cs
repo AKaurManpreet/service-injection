@@ -1,7 +1,14 @@
+using MathApi.Interfaces;
+using MathApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();  // Add this to ensure controllers are registered
+builder.Services.AddControllers();
+
+// Register CalculatorService with transient scope
+builder.Services.AddTransient<ICalculatorService, CalculatorService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -16,7 +23,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Add this line to map controllers to the request pipeline
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
